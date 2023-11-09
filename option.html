@@ -46,6 +46,8 @@
             alert('設定が保存されました！');
         }
 
+        var a1 = new Audio("BGM.mp3");
+        a1.play();
         let volume = document.getElementById('volume-slider');
 volume.addEventListener("change", function(e) {
     audio.volume = e.currentTarget.value / 100;
