@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ゲームのオプション</title>
+    <style>
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>ゲームのオプション</h1>
+
+    <label for="volumeSlider">音量:</label>
+    <input type="range" id="volumeSlider" min="0" max="100" value="50">
+
+    <br>
+
+    <label for="bgmCheckbox">BGM:</label>
+    <input type="checkbox" id="bgmCheckbox" checked>
+
+    <br>
+
+    <label for="soundEffectsCheckbox">効果音:</label>
+    <input type="checkbox" id="soundEffectsCheckbox" checked>
+
+    <br>
+
+    <button onclick="saveSettings()">設定を保存</button>
+
+    <script>
+        function saveSettings() {
+            const volume = document.getElementById('volumeSlider').value;
+            const bgmEnabled = document.getElementById('bgmCheckbox').checked;
+            const soundEffectsEnabled = document.getElementById('soundEffectsCheckbox').checked;
+
+            // ここで設定を保存するための処理を追加
+
+            alert('設定が保存されました！');
+        }
+    </script>
+</body>
+</html>
