@@ -19,10 +19,10 @@
     var canvas = document.getElementById("myCanvas");
     var context = canvas.getContext("2d");
 
-    // 丸を描画する関数
-    function drawCircle(x, y, link) {
+    // 短形を描画する関数
+    function drawRect(x, y,link) {
       context.beginPath();
-      context.arc(x, y, 20, 0, 2 * Math.PI);
+      context.strokeRect(x, y, 20, 20);
       context.fillStyle = "blue";
       context.fill();
       context.closePath();
@@ -42,15 +42,15 @@
       });
     }
 
-    // 丸の位置と間隔を設定
-    var circleCount = 6;
-    var row1Count = Math.ceil(circleCount / 2); // 1行目の丸の数
+    // 短形の位置と間隔を設定
+    var rectCount = 6;
+    var row1Count = Math.ceil(rectCount / 2); // 1行目の丸の数
     var spacing = canvas.width / (row1Count + 1);
     var row1Y = canvas.height / 3; // 1行目のY座標
     var row2Y = (canvas.height / 3) * 2; // 2行目のY座標
 
-    // 丸を描画
-    for (var i = 1; i <= circleCount; i++) {
+    // 短形を描画
+    for (var i = 1; i <= rectCount; i++) {
       var x, y, link;
 
       if (i <= row1Count) {
@@ -62,7 +62,7 @@
       }
 
       link = "game" + i + ".html"; // 各丸ごとに異なるリンク先を設定
-      drawCircle(x, y, link);
+      drawRect(x, y, link);
     }
 
     // マウスポインタの形を設定
