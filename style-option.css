@@ -1,6 +1,6 @@
 @charset "utf-8";
 
- {
+h1, input ,label {
 	width: 500px;
 	margin: 0 auto;
 }
