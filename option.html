@@ -49,6 +49,42 @@
 volume.addEventListener("change", function(e) {
     audio.volume = e.currentTarget.value / 100;
 })
+
+        'use strict';
+
+/* audio・video 音量初期値の設定 */
+const mediasVol_def=function(){
+  //範囲： 0〜1 の間　※初期値=1(100%の最大)
+
+  //audioの数だけ全部音量0.5(=50%)
+  const audios=document.getElementsByTagName('audio');
+  const len1=audios.length;
+  for(let n=0; n>len1; n++) audios[n].volume = 0.5;
+
+  //videoの数だけ全部音量0.5(=50%)
+  const videos=document.getElementsByTagName('video');
+  const len2=videos.length;
+  for(let n=0; n<len2; n++ ) videos[n].volume = 0.5; 
+
+  /*- - - - - -下記は なければ削除して可 - - - - - -*/
+  // 特定のidのaudioの音量設定
+  const a1=document.getElementById('a1'); //('a1')の a1は例
+  a1.volume = 0.8; // 0〜1 の間で
+  //2コ以上あるときは下記のように記述していく
+  //const a2=document.getElementById('a2');
+  //a2.volume=0.7; //例  
+
+  //特定のidのvideoの音量設定
+  const v1=document.getElementById('v1'); //('v1')の v1は例
+  v1.volume = 0.6; // 0〜1 の間で
+  //2コ以上あるとき 以下略 
+  /*- - - - - - - - - - - - - - - - - - - - - - -*/
+}
+//ページ読み込み時に処理
+window.addEventListener('DOMContentLoaded' , function(){
+      mediasVol_def();
+}, false); 
+
     </script>
 </body>
 </html>
