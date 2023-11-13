@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>6つの移動先</title>
+  <style>
+    canvas {
+      display: block;
+      margin: auto;
+      margin-top: 50px;
+      cursor: default;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="myCanvas" width="1200" height="800"></canvas>
+
+  <script>
+    // canvas要素の参照を取得
+    var canvas = document.getElementById("myCanvas");
+    var context = canvas.getContext("2d");
+
+    //ゲーム名
+        var ctx = canvas.getContext("2d");
+        ctx.font = "60px Times";
+    ctx.fillStyle = "blue";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("ENGLISH WORD GAME!", canvas.width / 2, canvas.height / 6);
+
+    //ボタンの表示名
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "black";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("過去のスコア", 230 , 340);
+    ctx.fillText("オンラインランキング", 630 , 340);
+    ctx.fillText("オプション", 1030 , 340);
+    ctx.fillText("ゲームスタート", 630 , 530);
+
+    // 短形を描画する関数
+    function drawRect(x, y,link) {
+      context.beginPath();
+      context.strokeRect(x, y, 320, 140);
+      context.fillStyle = "blue";
+      context.fill();
+      context.closePath();
+
+      // クリックイベントのリスナーを設定
+      canvas.addEventListener("click", function(event) {
+        var rect = canvas.getBoundingClientRect();
+        var clickX = event.clientX - rect.left;
+        var clickY = event.clientY - rect.top;
+
+        if (
+          clickX >= x - 20 && clickX <= x + 20 &&
+          clickY >= y - 20 && clickY <= y + 20
+        ) {
+          window.location.href = link; // リンク先に遷移
+        }
+      });
+    }
+
+    // 短形の位置と間隔を設定
+    var rectCount = 4;
+    var row1Count = 3; // 1行目の短形の数
+    var spacing = canvas.width / (row1Count + 1) + 100;
+    var row1Y = (canvas.height / 6) * 2; // 1行目のY座標
+    var row2Y = (canvas.height / 6) * 3 + 60; // 2行目のY座標
+
+    // 短形を描画
+    for (var i = 1; i <= rectCount; i++) {
+      var x, y, link;
+
+      if (i <= row1Count) {//x座標をいじっても横にずれるだけ
+        x = i * spacing - 330;
+        y = row1Y;
+      } else {
+        x = (i - row1Count + 1) * spacing - 330;
+        y = row2Y;
+      }
+
+      link = "game" + i + ".html"; // 各丸ごとに異なるリンク先を設定
+      drawRect(x, y, link);
+    }
+
+    // マウスポインタの形を設定
+    canvas.addEventListener("mousemove", function(event) {
+      var rect = canvas.getBoundingClientRect();
+      var mouseX = event.clientX - rect.left;
+      var mouseY = event.clientY - rect.top;
+
+      var isOverCircle = false;
+
+      // マウスが丸の範囲内にあるかチェック
+      for (var i = 1; i <= circleCount; i++) {
+        var x, y;
+
+        if (i <= row1Count) {
+          x = i * spacing;
+          y = row1Y;
+        } else {
+          x = (i - row1Count) * spacing;
+          y = row2Y;
+        }
+
+        if (
+          mouseX >= x - 20 && mouseX <= x + 20 &&
+          mouseY >= y - 20 && mouseY <= y + 20
+        ) {
+          isOverCircle = true;
+          break;
+        }
+      }
+
+      // マウスポインタの形を設定
+      if (isOverCircle) {
+        canvas.style.cursor = "pointer";
+      } else {
+        canvas.style.cursor = "default";
+      }
+    });
+  </script>
+</body>
+</html>
