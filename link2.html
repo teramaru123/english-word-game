@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-  <title>6つの移動先</title>
+  <meta charset="UTF-8"/>
+  <title>ホーム画面</title>
   <style>
     canvas {
       display: block;
@@ -52,8 +53,8 @@
         var clickY = event.clientY - rect.top;
 
         if (
-          clickX >= x - 20 && clickX <= x + 20 &&
-          clickY >= y - 20 && clickY <= y + 20
+          clickX >= x && clickX <= x + 320 &&
+          clickY >= y && clickY <= y + 140
         ) {
           window.location.href = link; // リンク先に遷移
         }
@@ -91,21 +92,21 @@
 
       var isOverCircle = false;
 
-      // マウスが丸の範囲内にあるかチェック
+      // マウスが短形の範囲内にあるかチェック
       for (var i = 1; i <= circleCount; i++) {
         var x, y;
 
         if (i <= row1Count) {
-          x = i * spacing;
+          x = i * spacing - 330;
           y = row1Y;
         } else {
-          x = (i - row1Count) * spacing;
+          x = (i - row1Count + 1) * spacing - 330;
           y = row2Y;
         }
 
         if (
-          mouseX >= x - 20 && mouseX <= x + 20 &&
-          mouseY >= y - 20 && mouseY <= y + 20
+          mouseX >= x && mouseX <= x + 320 &&
+          mouseY >= y && mouseY <= y + 140
         ) {
           isOverCircle = true;
           break;
