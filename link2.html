@@ -90,7 +90,7 @@
       var mouseX = event.clientX - rect.left;
       var mouseY = event.clientY - rect.top;
 
-      var isOverCircle = false;
+      var isOverRect = false;
 
       // マウスが短形の範囲内にあるかチェック
       for (var i = 1; i <= circleCount; i++) {
@@ -108,13 +108,13 @@
           mouseX >= x && mouseX <= x + 320 &&
           mouseY >= y && mouseY <= y + 140
         ) {
-          isOverCircle = true;
+          isOverRect = true;
           break;
         }
       }
 
       // マウスポインタの形を設定
-      if (isOverCircle) {
+      if (isOverRect) {
         canvas.style.cursor = "pointer";
       } else {
         canvas.style.cursor = "default";
