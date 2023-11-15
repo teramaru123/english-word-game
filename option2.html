@@ -62,10 +62,10 @@
       let volume = document.getElementById('volumeSlider');
       let range = document.getElementById('vol_range');
       audio.volume = volume.value / 100;
-          volume.addEventListener("change", function() {
-              audio.volume = volume.value / 100;
-              range.textContent = volume.value / 100;
-          }, false);
+      volume.addEventListener("change", function() {
+          audio.volume = volume.value / 100;
+          range.textContent = volume.value / 100;
+      }, false);
 
 
 
