@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ゲームのオプション</title>
+    <link rel="stylesheet" href="style-option.css" />
+    <style>
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>ゲームのオプション</h1>
+
+    ユーザ名の変更
+    <input type="text" id="name" onChange='document.cookie = "name=" + this.value + "; max-age=31536000"'><br>
+
+    <label for="volumeSlider">音量:</label>
+    <input type="range" id="volumeSlider" min="0" max="100" value="50">
+    <span id="vol_range"></span>
+    <br>
+
+    <label for="bgmCheckbox">BGM:</label>
+    <input type="checkbox" id="bgmCheckbox"  onchange="bgm();" checked>
+
+    <br>
+
+    <label for="soundEffectsCheckbox">効果音:</label>
+    <input type="checkbox" id="soundEffectsCheckbox" checked>
+
+    <br>
+
+    <button onclick="saveSettings()">設定を保存</button>
+
+    <script>
+        function saveSettings() {
+            const volume = document.getElementById('volumeSlider').value;
+            const bgmEnabled = document.getElementById('bgmCheckbox').checked;
+            const soundEffectsEnabled = document.getElementById('soundEffectsCheckbox').checked;
+
+            // ここで設定を保存するための処理を追加
+
+            alert('設定が保存されました！');
+        }
+
+      var audio = new Audio("BGM.mp3");
+      function bgm() {
+          let bgm = document.getElementById('bgmCheckbox');
+          if(bgm.checked) {
+              audio.play();
+          }
+          else {
+              audio.pause();
+              audio.currentTime = 0;
+          }
+      }
+
+      let volume = document.getElementById('volumeSlider');
+      let range = document.getElementById('vol_range');
+      audio.volume = volume.value / 100;
+          volume.addEventListener("change", function() {
+              audio.volume = volume.value / 100;
+              range.textContent = volume.value / 100;
+          }, false);
+
+
+
+    </script>
+</body>
+</html>
