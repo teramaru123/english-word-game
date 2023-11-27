@@ -6,6 +6,7 @@ var ctx; // コンテキスト格納
 var own = new Image(); // 自機画像
 var bulletImage = new Image(); // 弾画像
 var bulletList = [];
+var shotSound = new Audio('shot.mp3');
 
 // - main ---------------------------------------------------------------------
 window.onload = function(){
