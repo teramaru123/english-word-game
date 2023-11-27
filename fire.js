@@ -17,4 +17,5 @@ function Bullet(x, y) {
 function fireBullet() {
   var bullet = new Bullet(mouse.x, mouse.y);
   bulletList.push(bullet);
+  shotSound.play();
 }
