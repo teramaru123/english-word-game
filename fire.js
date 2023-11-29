@@ -15,7 +15,7 @@ function Bullet(x, y) {
 
 // 弾を発射する関数
 function fireBullet() {
-  var bullet = new Bullet(mouse.x, mouse.y);
+  var bullet = new Bullet(player.x, player.y);
   bulletList.push(bullet);
   shotSound.play();
 }
