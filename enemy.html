@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8"/>
+    <title>シューティングゲーム</title>
+    <style>
+      .wrapper {
+          width: 100vw;
+          height: 100vh;
+          position: relative;
+      }
+
+      .title {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 100px;
+          font-weight: bold;
+          color: #fff4e14d;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <script type="text/javascript">
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      class Particle {
+          constructor(x, y, radius, directionX, directionY) {
+              this.x = x;
+              this.y = y;
+              this.radius = radius;
+              this.directionX = directionX;
+              this.directionY = directionY;
+          }
+          render() {
+              // 円をかく
+              ctx.beginPath();
+              ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+              ctx.fillStyle = "#E67A7A";
+              ctx.fill();
+          }
+          update() {
+              ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+              var r = Math.random();
+              if ( r < 0.25 ) {
+                  this.x += 40;
+              }
+              else if ( r >= 0.25 && r < 0.5 ) {
+                  this.y -= 40;
+              }
+              else if ( r >= 0.5 && r < 0.75 ) {
+                  this.x -= 40;
+              }
+              else {
+                  this.y += 40;
+              }
+
+              if (this.x > canvas.width) {
+                  this.x -= 40;
+              }
+              else if (this.x < 0) {
+                  this.x += 40;
+              }
+
+              if (this.y > canvas.height / 2) {
+                  this.y -= 40;
+              }
+              else if (this.y < 0) {
+                  this.y += 40;
+              }
+
+              ctx.beginPath();
+              ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+              ctx.fillStyle = "#E67A7A";
+              ctx.fill();
+          }
+      }
+
+      const particle = new Particle(100, 100, 10, 0, 0);
+      particle.render();
+
+      render();
+
+      window.requestAnimationFrame =
+    window.requestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    window.weblitRequestAnimationFrame ||
+    window.msRequestAnimationFrame ||
+    function (cb) { setTimeout(cb, 17); };
+
+      function render() {
+          particle.update();
+          requestAnimationFrame(render);
+      }
+    </script>
+  </body>
+</html>
