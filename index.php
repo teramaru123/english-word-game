@@ -15,7 +15,7 @@
 </head>
 <body>
   <?php
-$filename = "username.txt";
+$filename = "settings.txt";
 $content = file_get_contents($filename);
 $pair = explode(",", $content);
 $user_name = trim($pair[0]);
