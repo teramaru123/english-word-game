@@ -12,6 +12,9 @@
      </style>
 </head>
 <body>
+
+  //動かす際には、save_settings.phpとchmod 666(または777)とした、settings.txtが必要
+  
   <h1>ゲームのオプション</h1>
     <?php
     $filename = "settings.txt";
