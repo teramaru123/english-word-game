@@ -106,7 +106,7 @@ $user_name = trim($pair[0]);
                         } else if (i === 2) {
                             link = "onlinRanking.html";
                         } else if (i === 3) {
-                            link = "option.html";
+                            link = "option.php";
                         } else if (i === 4) {
                             link = "gameStart.html";
                         }
