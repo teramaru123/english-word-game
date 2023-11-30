@@ -35,15 +35,15 @@ $user_name = trim($pair[0]);
             var fontSize1 = Math.min(canvas.width / 31, canvas.height / 12);
             context.font = fontSize1 + "px Times";
             context.fillStyle = "blue";
-            context.fillText("VOCABULARY STRIKE!", canvas.width / 3, canvas.height / 6);
+            context.fillText("VOCABULARY STRIKE!", canvas.width / 3, canvas.height / 10);
 
 
               //短形を描画
             var rectCount = 4;
             var row1Count = 3;
             var spacing = canvas.width / (row1Count + 1);
-            var row1Y = (canvas.height / 6) * 2;
-            var row2Y = (canvas.height / 6) * 4;
+            var row1Y = (canvas.height / 6) * 1.7;
+            var row2Y = (canvas.height / 6) * 3.5;
 
             for (var i = 1; i <= rectCount; i++) {
                 var x, y;
