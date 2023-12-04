@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>弾発射ゲーム</title>
+    <title>移動＆シューティング</title>
     <style>
         body {
             display: flex;
@@ -11,6 +11,7 @@
             margin: 0;
         }
     </style>
+    <script src="fire.js"></script>
 </head>
 <body>
     <canvas id="gameCanvas" width="800" height="600"></canvas>
@@ -20,28 +21,49 @@
         const ctx = canvas.getContext('2d');
         const bulletImage = document.getElementById('bulletImage');
         let playerX = canvas.width / 2;
-        const bulletSpeed = 0.05;
+        let playerY = canvas.height - 20; // 初期位置を画面下部に設定
+        const playerSpeed = 2; // プレイヤーの移動速度
+        const bulletSpeed = 5; // 弾の移動速度
         let bulletY = canvas.height;
         let bulletFired = false;
 
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'a' && playerX > 0) {
-                playerX -= 1;
-            } else if (event.key === 'd' && playerX < canvas.width - 20) {
-                playerX += 1;
-            } else if (event.key === 's' && !bulletFired) {
-                bulletFired = true;
-                bulletY = canvas.height;
-                shootBullet();
-            }
-        });
+        var fireScript = document.createElement('script');
+        fireScript.src = 'fire.js';
+        document.head.appendChild(fireScript);
+
+        fireScript.onload = function() {
+            // fire.jsの関数を使用可能になったら、弾を発射する処理を追加
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 's' && !bulletFired) {
+                    bulletFired = true;
+                    bulletY = canvas.height;
+                }
+                if (event.key === 'space' && !bulletFired) {
+                    bulletFired = true;
+                    fireBullet();
+                }
+            });
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'a' && playerX > 0) {
+                    playerX -= playerSpeed;
+                } else if (event.key === 'd' && playerX < canvas.width - 20) {
+                    playerX += playerSpeed;
+                } else if (event.key === 'w' && playerY > 0) {
+                    playerY -= playerSpeed;
+                } else if (event.key === 's' && playerY < canvas.height - 20) {
+                    playerY += playerSpeed;
+                }
+            });
+        };
 
         function shootBullet() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawPlayer();
+            ctx.drawImage(bulletImage, playerX, bulletY, 50, 50);
+            bulletY -= bulletSpeed;
+
             if (bulletY > 0) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                drawPlayer();
-                ctx.drawImage(bulletImage, playerX, bulletY, 50, 50);
-                bulletY -= bulletSpeed;
                 requestAnimationFrame(shootBullet);
             } else {
                 bulletFired = false;
@@ -49,7 +71,7 @@
         }
 
         function drawPlayer() {
-            ctx.fillRect(playerX, canvas.height - 20, 20, 20);
+            ctx.fillRect(playerX, playerY, 20, 20);
         }
 
         function gameLoop() {
