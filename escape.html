@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8"/>
+    <title>球を避けるゲーム</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script type="text/javascript">
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        class Player {
+            constructor(x, y, size) {
+                this.x = x;
+                this.y = y;
+                this.size = size;
+            }
+
+            render() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, true);
+                ctx.fillStyle = "#3498DB";
+                ctx.fill();
+            }
+        }
+
+        class Enemy {
+            constructor(x, y, speed) {
+                this.x = x;
+                this.y = y;
+                this.size = 20;
+                this.speed = speed;
+            }
+
+            render() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, true);
+                ctx.fillStyle = "#E67A7A";
+                ctx.fill();
+            }
+
+            update() {
+                this.y += this.speed;
+
+                if (this.y > canvas.height + this.size) {
+                    // 画面外に出たら初期位置に戻す
+                    this.y = -this.size;
+                    this.x = Math.random() * (canvas.width - this.size * 2) + this.size;
+                    this.speed = Math.random() * 2 + 1;
+                }
+
+                this.render();
+            }
+        }
+
+        class Bullet {
+            constructor(x, y, speed) {
+                this.x = x;
+                this.y = y;
+                this.speed = speed;
+                this.size = 5;
+            }
+
+            render() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, true);
+                ctx.fillStyle = "#E74C3C";
+                ctx.fill();
+            }
+
+            update() {
+                this.y += this.speed;
+
+                if (this.y < -this.size) {
+                    // 画面外に出たら削除
+                    return true;
+                }
+
+                this.render();
+                return false;
+            }
+        }
+
+        const player = new Player(canvas.width / 2, canvas.height - 30, 20);
+        const enemies = [];
+        const bullets = [];
+
+        for (let i = 0; i < 5; i++) {
+            enemies.push(new Enemy(Math.random() * (canvas.width - 40) + 20, Math.random() * canvas.height, Math.random() * 2 + 1));
+        }
+
+        function update() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            player.render();
+
+            for (const enemy of enemies) {
+                enemy.update();
+            }
+
+            for (let i = bullets.length - 1; i >= 0; i--) {
+                const remove = bullets[i].update();
+                if (remove) {
+                    bullets.splice(i, 1);
+                }
+            }
+
+            checkCollision();
+
+            requestAnimationFrame(update);
+        }
+
+        function checkCollision() {
+            for (const enemy of enemies) {
+                const distance = Math.sqrt((player.x - enemy.x) ** 2 + (player.y - enemy.y) ** 2);
+
+                if (distance < player.size + enemy.size) {
+                    // 衝突したらゲームオーバー
+                    alert("ゲームオーバー");
+                    resetGame();
+                }
+            }
+
+            for (let i = bullets.length - 1; i >= 0; i--) {
+                for (const enemy of enemies) {
+                    const distance = Math.sqrt((bullets[i].x - enemy.x) ** 2 + (bullets[i].y - enemy.y) ** 2);
+
+                    if (distance < bullets[i].size + enemy.size) {
+                        // 弾が敵に当たったら敵を再配置
+                        enemy.y = -enemy.size;
+                        enemy.x = Math.random() * (canvas.width - enemy.size * 2) + enemy.size;
+                        enemy.speed = Math.random() * 2 + 1;
+                        // 弾を削除
+                        bullets.splice(i, 1);
+                    }
+                }
+            }
+        }
+
+        function resetGame() {
+            // ゲームをリセットする処理（適宜実装）
+            player.x = canvas.width / 2;
+            player.y = canvas.height - 30;
+
+            for (let i = 0; i < 5; i++) {
+                enemies[i].y = Math.random() * canvas.height;
+                enemies[i].x = Math.random() * (canvas.width - 40) + 20;
+                enemies[i].speed = Math.random() * 2 + 1;
+            }
+
+            bullets.length = 0;
+        }
+
+        function fireBullet() {
+            bullets.push(new Bullet(player.x, player.y, -5));
+        }
+
+        window.addEventListener('keydown', (event) => {
+            if (event.key === ' ') {
+                fireBullet();
+            }
+        });
+
+        window.addEventListener('mousemove', (event) => {
+            player.x = event.clientX;
+            player.y = event.clientY;
+        });
+
+        update();
+    </script>
+</body>
+</html>
