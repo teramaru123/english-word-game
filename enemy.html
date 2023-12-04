@@ -2,102 +2,100 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8"/>
-    <title>シューティングゲーム</title>
-    <style>
-      .wrapper {
-          width: 100vw;
-          height: 100vh;
-          position: relative;
-      }
+    <title>敵の配置</title>
 
-      .title {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          font-size: 100px;
-          font-weight: bold;
-          color: #fff4e14d;
-      }
-    </style>
+    <script src="common.js"></script>
+    <script src="character.js"></script>
+
   </head>
   <body>
-    <canvas id="canvas"></canvas>
+
+    <canvas id="screen"></canvas>
+    <p id="info"></p>
+
     <script type="text/javascript">
-      const canvas = document.getElementById('canvas');
-      const ctx = canvas.getContext('2d');
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
 
-      class Particle {
-          constructor(x, y, radius, directionX, directionY) {
-              this.x = x;
-              this.y = y;
-              this.radius = radius;
-              this.directionX = directionX;
-              this.directionY = directionY;
+      var screenCanvas, info;
+      var run = true;
+      var mouse = new Point();
+      var ctx; //コンテキスト格納
+      var enemy = new Image(); //敵
+
+
+      window.onload = function(){
+          var i;
+
+          // スクリーンの初期化
+          screenCanvas = document.getElementById('screen');
+          screenCanvas.width = window.innerWidth;
+          screenCanvas.height = window.innerHeight;
+
+          //2dコンテキスト
+          ctx = screenCanvas.getContext('2d');
+
+          // エレメント関連
+          info = document.getElementById('info');
+
+          //画像初期化
+          enemy.src = "enemy.png";
+
+          gameloop();
+
+          // ループ処理を呼び出す
+          function gameloop(){
+
+              var x = mouse.x;
+              var y = mouse.y;
+              var width = screenCanvas.width;
+              var height = screenCanvas.heght / 2;
+
+
+
+              var update = setInterval( function() {
+
+                  var r = Math.random();
+
+                  // screenクリア
+                  ctx.clearRect(0, 0, screenCanvas.width, screenCanvas.height);
+
+                  // 敵の画像を表示
+                  ctx.drawImage(enemy, x, y);
+
+                  if ( r < 0.25 ) {
+                      x += 250;
+                  }
+                  else if ( r >= 0.25 && r < 0.5 ) {
+                      y -= 250;
+                  }
+                  else if ( r >= 0.5 && r < 0.75 ) {
+                      x -= 250;
+                  }
+                  else {
+                      y += 250;
+                  }
+
+                  if ( x > screenCanvas.width ) {
+                      x -= 250;
+                  }
+
+                  if ( x < 0 ) {
+                      x += 250;
+                  }
+
+                  if ( y > screenCanvas.height / 3 ) {
+                      y -= 250;
+                  }
+
+                  if ( y < 0 ) {
+                      y += 250;
+                  }
+
+              }, 1000);
+
           }
-          render() {
-              // 円をかく
-              ctx.beginPath();
-              ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
-              ctx.fillStyle = "#E67A7A";
-              ctx.fill();
-          }
-          update() {
-              ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-              var r = Math.random();
-              if ( r < 0.25 ) {
-                  this.x += 40;
-              }
-              else if ( r >= 0.25 && r < 0.5 ) {
-                  this.y -= 40;
-              }
-              else if ( r >= 0.5 && r < 0.75 ) {
-                  this.x -= 40;
-              }
-              else {
-                  this.y += 40;
-              }
+      };
 
-              if (this.x > canvas.width) {
-                  this.x -= 40;
-              }
-              else if (this.x < 0) {
-                  this.x += 40;
-              }
-
-              if (this.y > canvas.height / 2) {
-                  this.y -= 40;
-              }
-              else if (this.y < 0) {
-                  this.y += 40;
-              }
-
-              ctx.beginPath();
-              ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
-              ctx.fillStyle = "#E67A7A";
-              ctx.fill();
-          }
-      }
-
-      const particle = new Particle(100, 100, 10, 0, 0);
-      particle.render();
-
-      render();
-
-      window.requestAnimationFrame =
-    window.requestAnimationFrame ||
-    window.mozRequestAnimationFrame ||
-    window.weblitRequestAnimationFrame ||
-    window.msRequestAnimationFrame ||
-    function (cb) { setTimeout(cb, 17); };
-
-      function render() {
-          particle.update();
-          requestAnimationFrame(render);
-      }
     </script>
   </body>
 </html>
