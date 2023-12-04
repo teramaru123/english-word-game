@@ -15,7 +15,15 @@ function Bullet(x, y) {
 
 // 弾を発射する関数
 function fireBullet() {
-  var bullet = new Bullet(player.x, player.y);
+  var bullet = new Bullet(playerX, playerY);
   bulletList.push(bullet);
-  shotSound.play();
+  // shotSound.play(); // (必要に応じて音声の再生を追加する)
+}
+
+// 別のスクリプトで使うために関数をエクスポート
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    Bullet: Bullet,
+    fireBullet: fireBullet
+  };
 }
