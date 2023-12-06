@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8"/>
+    <script type="text/javascript" src="https://zeptojs.com/zepto.min.js"></script>
+    <script type="text/javascript">
+
+      function ranking(){
+          _d = new Date().getTime(); //キャッシュ回避のため日時を利用する
+          $.get("ranking2.php?_d=" + _d, function(data){
+              var a = data.split("\n"); //改行で区切る
+              var table = "<table border=1 cellspacing=0 cellpadding=2>";
+              table += "<tr><td>順位</td><td>名前</td><td>Score</td><td>日時</td></tr>";
+              for(i=0;i<a.length-1;i++){
+                  var b = a[i].split(","); //カンマで区切る
+                  table += "<tr><td>" + (i+1) + "</td><td>" + b[2] + "</td><td>"
+                      + b[1] + "</td><td>" + b[0] + "</td></tr>";
+              }
+              table += "</table>";
+              document.getElementById("ranking").innerHTML = table;
+          });
+      }
+      </script>
+  </head>
+  <body>
+    <div align="center">
+      <h1>オンラインランキング</h1><br>
+      <div id="ranking"></div>
+      <script type="text/javascript">
+        ranking();
+      </script>
+    </div>
+  </body>
+</html>
