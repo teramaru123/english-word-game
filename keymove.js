@@ -23,6 +23,22 @@ function keyDown(event){
     fireBullet();
   }
 
+  //arrowLeftキーで無敵
+  if (ck === 37){
+    lastKeyDownTime = Date.now();
+  }
+
+  //arrowLeftキーで弾を消去
+  if (ck === 39){
+    enemyBulletList = [];
+  }
+
+  //arrowupキーでスコアを加算
+  if (ck === 38) {
+    scoreManager.score += 1001;
+    scoreManager.displayScore();
+  }
+
   // Escキーが押されていたらフラグを降ろす
   if(ck === 27){run = false;}
 }
