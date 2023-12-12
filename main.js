@@ -63,6 +63,8 @@ window.onload = function(){
 
   const scoreManager = new ScoreManager();
   scoreManager.startScoring();
+  // keymove.js で参照できるように scoreManager をグローバルに設定
+  window.scoreManager = scoreManager;
 
   gameloop();
 
