@@ -114,7 +114,7 @@ window.onload = function(){
 
         // アラートを閉じてから別のページに遷移
         setTimeout(function () {
-          window.location.href = './uncon.html';  // 遷移先のURLを指定
+          window.location.href = './underconstruction.html';  // 遷移先のURLを指定
         }, 10);
         return;
       }
