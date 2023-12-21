@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英単語クイズ - リザルト</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        .result-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #333;
+        }
+        p {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <h2>スコア</h2>
+	<?php echo $correct = 8; ?> <!--仮の正解数--!>
+	<?php echo $score = 10000; ?> <!--仮のスコア--!>
+	<?php echo $word = "apple"; ?> <!--仮の単語--!>
+	<?php echo $part = "名"; ?> <!--仮の品詞--!>
+	<?php echo $mean = "りんご"; ?> <!--仮の意味--!>
+	<p>正答数: <?php echo $correct; ?> </p>
+	<p>スコア: <?php echo $score; ?> </p>
+	<p>正解の単語: <?php echo $word; ?> </p>
+	<p>品詞: <?php echo $part; ?> </p>
+	<p>意味: <?php echo $mean; ?> </p>
+
+	<a href="ゲーム画面のURL" class="next-button">もう一度</a><br>
+	<a href="ホーム画面のURL" class="next-button">ホーム画面へ</a>
+    </div>
+</body>
+</html>
