@@ -65,7 +65,6 @@ window.onload = function(){
 
   // エレメント関連
   info = document.getElementById('info');
-  info = document.getElementById('info1');
   // 画像初期化
   own.src = "own.png";
   enemyImage.src = "enemy.png";
