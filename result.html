@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,19 +29,53 @@
 <body>
     <div class="result-container">
         <h2>スコア</h2>
-	<?php echo $correct = 8; ?> <!--仮の正解数--!>
-	<?php echo $score = 10000; ?> <!--仮のスコア--!>
-	<?php echo $word = "apple"; ?> <!--仮の単語--!>
-	<?php echo $part = "名"; ?> <!--仮の品詞--!>
-	<?php echo $mean = "りんご"; ?> <!--仮の意味--!>
-	<p>正答数: <?php echo $correct; ?> </p>
-	<p>スコア: <?php echo $score; ?> </p>
-	<p>正解の単語: <?php echo $word; ?> </p>
-	<p>品詞: <?php echo $part; ?> </p>
-	<p>意味: <?php echo $mean; ?> </p>
+        <p id="resultContainer"></p>
+        <p id="scoreContainer"> </p>
 
-	<a href="ゲーム画面のURL" class="next-button">もう一度</a><br>
-	<a href="ホーム画面のURL" class="next-button">ホーム画面へ</a>
+        <div id="result">
+        </div>
+
+        <a href="ゲーム画面のURL" class="next-button">もう一度</a><br>
+        <a href="ホーム画面のURL" class="next-button">ホーム画面へ</a>
     </div>
+    <script>
+      var cnt = 0;
+      var resultArray = JSON.parse(localStorage.getItem('resultArray')) || [];
+      var answerArray = JSON.parse(localStorage.getItem('answerArray')) || [];
+      var meanArray = JSON.parse(localStorage.getItem('meanArray')) || [];
+      var score = JSON.parse(localStorage.getItem('score')) || [] ;
+      // 結果の表示
+console.log('結果:', resultArray);
+
+// 解答の表示
+      console.log('解答:', answerArray);
+      console.log('意味:', meanArray);
+
+      for(i = 0; i <  resultArray.length;i++){
+          if(resultArray[i] == 1){
+              cnt++;
+              resultArray[i] = "〇";
+          }
+          else{
+              resultArray[i] = "×";
+          }
+
+      }
+
+
+
+      document.getElementById('resultContainer').textContent = "正解数:" + cnt;
+      document.getElementById('scoreContainer').textContent = "スコア:" + score;
+
+ var table = "<table border=1 cellspacing=0 cellpadding=2>";
+  table += "<tr><td>出題順</td><td>英単語</td><td>意味</td><td>正誤</td></tr>";
+  for(i=0;i<resultArray.length;i++){
+  table += "<tr><td>" + (i+1) + "</td><td>" + answerArray[i] + "</td><td>"
+  + meanArray[i] + "</td><td>" + resultArray[i] + "</td></tr>";
+  }
+  table += "</table>";
+  document.getElementById("result").innerHTML = table;
+
+      </script>
 </body>
 </html>
