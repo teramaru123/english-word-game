@@ -25,7 +25,7 @@ function keyDown(event){
 
   //arrowLeftキーで無敵
   if (ck === 37){
-    lastKeyDownTime = Date.now();
+    lALKDT = Date.now();
   }
 
   //arrowLeftキーで弾を消去
