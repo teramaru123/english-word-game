@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4択クイズアプリ</title>
+  <style>
+    /* CSSで斜線を追加 */
+    .strikethrough {
+      text-decoration: line-through;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>クイズアプリ</h1>
+  <p id="question">これは質問です</p>
+  <ul id="choices">
+    <li>A. 選択肢1</li>
+    <li>B. 選択肢2</li>
+    <li>C. 選択肢3</li>
+    <li>D. 選択肢4</li>
+  </ul>
+
+  <script>
+    // 選択肢の配列
+    const choices = ["選択肢1", "選択肢2", "選択肢3", "選択肢4"];
+    // 選択肢の元の状態を保存するための配列
+    const originalChoices = [...choices];
+    // 現在の正解の選択肢のインデックス
+    let correctChoiceIndex = 0;
+    // 選択肢が消えたかどうかのフラグ
+    let choicesHidden = false;
+
+    // ページロード時に初期のクイズを表示
+    updateQuiz();
+
+    // ↑キーが押されたときの処理
+    document.addEventListener("keydown", function(event) {
+      if (event.key === "ArrowUp" && !choicesHidden) {
+        // 正解の選択肢以外の選択肢からランダムに一つ選び、斜線を追加
+        const incorrectChoices = choices.filter((_, index) => index !== correctChoiceIndex);
+        const randomIncorrectChoiceIndex = Math.floor(Math.random() * incorrectChoices.length);
+        const hiddenChoiceIndex = choices.indexOf(incorrectChoices[randomIncorrectChoiceIndex]);
+
+        // 選択中の選択肢に斜線を追加
+        document.getElementById("choices").children[hiddenChoiceIndex].classList.add("strikethrough");
+
+        // 選択肢が消えたことを示すフラグを立てる
+        choicesHidden = true;
+      } else if (event.key === "Enter") {
+        // Enterキーが押されたときに問題と選択肢をリセット
+        resetQuiz();
+      }
+    });
+
+    // クイズを更新する関数
+    function updateQuiz() {
+      // クイズの質問文を更新
+      document.getElementById("question").innerText = "これは質問ですか？";
+
+      // 選択肢を元の状態にリセット
+      choices.splice(0, choices.length, ...originalChoices);
+
+      // 正解の選択肢をランダムに選ぶ
+      correctChoiceIndex = Math.floor(Math.random() * choices.length);
+
+      // 選択肢が消えたかどうかのフラグをリセット
+      choicesHidden = false;
+
+      // 選択肢を更新
+      const choicesList = document.getElementById("choices");
+      for (let i = 0; i < choices.length; i++) {
+        const listItem = choicesList.children[i];
+        const choiceText = choices[i];
+
+        // 正解の選択肢に対応するものには斜線を追加しない
+        if (i === correctChoiceIndex) {
+          listItem.innerHTML = String.fromCharCode(65 + i) + ". " + choiceText;
+        } else {
+          listItem.innerHTML = String.fromCharCode(65 + i) + ". " + choiceText;
+        }
+
+        // 斜線が既に追加されていた場合、クラスを削除
+        listItem.classList.remove("strikethrough");
+      }
+    }
+
+    // クイズをリセットする関数
+    function resetQuiz() {
+      // クイズを更新
+      updateQuiz();
+    }
+  </script>
+
+</body>
+</html>
