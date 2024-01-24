@@ -39,6 +39,11 @@ function keyDown(event){
     scoreManager.displayScore();
   }
 
+  //arrowDownキーで選択肢を減らす
+  if (ck === 40) {
+    lADKDT = Date.now();
+  }
+
   // Escキーが押されていたらフラグを降ろす
   if(ck === 27){run = false;}
 }
