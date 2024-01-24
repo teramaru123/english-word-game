@@ -11,10 +11,13 @@ var bulletList = [];
 var enemyBulletList = [];
 var shotSound = new Audio('shot.mp3'); // "shot.mp3" ファイルを読み込む
 var lastKeyDownTime = 0;
-var arrayAnswer = []; //解答を格納
-var cnt = 0;
+var answerArray = []; //解答を格納
+var cnt = 0; //解答格納時に使用
+var cnt1 = 0;　//正誤を格納
 var ans = 0;　//プレイヤーの回答を格納
 var ctx1;
+var resultArray = []; //解答の正誤を格納、1or0
+var meanArray = [];//解答の意味を格納
 // ScoreManager クラス
 class ScoreManager {
   constructor() {
@@ -64,7 +67,7 @@ window.onload = function(){
   screenCanvas.addEventListener('mousedown', fireBullet, true);
 
   // エレメント関連
-  info = document.getElementById('info');
+    info = document.getElementById('info');
   // 画像初期化
   own.src = "own.png";
   enemyImage.src = "enemy.png";
@@ -112,10 +115,16 @@ window.onload = function(){
           run = false;
           scoreManager.stopScoring(); // スコア増加の setInterval を停止
           alert('ゲームオーバー\nスコア：'+ scoreManager.getCurrentScore());
+          var score = scoreManager.getCurrentScore();
 
         // アラートを閉じてから別のページに遷移
-        setTimeout(function () {
-          window.location.href = './result.html';  // 遷移先のURLを指定
+          setTimeout(function () {
+              //ローカルストレージに保存し、リザルト画面で用いる
+              localStorage.setItem('resultArray', JSON.stringify(resultArray));
+              localStorage.setItem('answerArray', JSON.stringify(answerArray));
+              localStorage.setItem('meanArray', JSON.stringify(meanArray));
+              localStorage.setItem('score', JSON.stringify(score));
+              window.location.href = './result.html';  // 遷移先のURLを指定
         }, 10);
         return;
       }
@@ -178,20 +187,20 @@ setTimeout(function () {
     }, 35000); // 35000ミリ秒＝35秒ごとに show() を実行
 }, 20000); // 20000ミリ秒＝20秒後に show() を実行
 
-  //何秒おきに表示、何秒表示するのかによって変動、現時点では20秒おきに15秒表示にしている
+  //何秒おきに表示、何秒表示するのかによって変動、現時点では20秒おきに15秒表示にしている、35秒周期で削除
     var interval1Id =setInterval(clear,35000);
 };
 
 function show() {
 info.innerHTML = "現在のスコア: " + scoreManager.score + "<br>位置: " + ans;
- // info1.innerHTML  =  "位置: " + ans;
     const min = 1;//以上
     const max = 5;//未満
     var answer = Math.floor(Math.random() * (max - min) + min); //1～4でランダムに正解の番号を生成
 
+
     for(var i = 1; i <= 4; i++){
         //縦、横線を描く
-        ctx1.strokeStyle = '#0000ff';
+        ctx1.strokeStyle = 'black';
         ctx1.beginPath();
         ctx1.moveTo(128,0);
         ctx1.lineTo(128,256);
@@ -203,10 +212,23 @@ info.innerHTML = "現在のスコア: " + scoreManager.score + "<br>位置: " + 
         ctx1.closePath();
         ctx1.stroke();
 
-        const min1 = 0;//以上
-        const max1 = 1000;//未満
+         // 背景を半透明に
+    ctx1.fillStyle = "rgba(255, 0, 0, 0.2)";
+    ctx1.fillRect(0, 0, screenCanvas1.width / 2, screenCanvas1.height / 2);
 
-        // L1.txtの中身を配列にしたものをランダムに4つ表示する
+    ctx1.fillStyle = "rgba(0, 0, 255, 0.2)";
+    ctx1.fillRect(screenCanvas1.width / 2, 0, screenCanvas1.width / 2, screenCanvas1.height / 2);
+
+    ctx1.fillStyle = "rgba(255, 255, 0, 0.2)";
+    ctx1.fillRect(0, screenCanvas1.height / 2, screenCanvas1.width / 2, screenCanvas1.height / 2);
+
+    ctx1.fillStyle = "rgba(0, 128, 0, 0.2)";
+    ctx1.fillRect(screenCanvas1.width / 2, screenCanvas1.height / 2, screenCanvas1.width / 2, screenCanvas1.height / 2);
+
+        const min1 = 0;//以上
+        const max1 = 1000;//未満 テキストファイルの単語数に合わせた方が良いかも
+
+        // L1.txt(テキストファイル)の中身を配列にしたものをランダムに4つ表示する
         var rn = Math.floor(Math.random() * (max1 - min1) + min1);
 
         ctx1.textAlign = "center";
@@ -216,42 +238,27 @@ info.innerHTML = "現在のスコア: " + scoreManager.score + "<br>位置: " + 
 
         if(i == 1){
             ctx1.fillText(b[rn],screenCanvas1.width / 4, screenCanvas1.height / 4 );
-            if(i == answer){
-                ctx1.fillText(c[rn],screenCanvas1.width / 2, screenCanvas1.height / 2 );
-                arrayAnswer[cnt] = b[rn];
-             }
         }
         else if(i == 2){
             ctx1.fillText(b[rn], screenCanvas1.width * 3 / 4, screenCanvas1.height / 4);
-            if(i == answer){
-                ctx1.fillText(c[rn],screenCanvas1.width / 2, screenCanvas1.height / 2 );
-                arrayAnswer[cnt] = b[rn];
-            }
         }
         else if(i == 3){
             ctx1.fillText(b[rn], screenCanvas1.width * 3 / 4, screenCanvas1.height * 3  / 4);
-
-            if(i == answer){
-                ctx1.fillText(c[rn],screenCanvas1.width / 2, screenCanvas1.height / 2 );
-                arrayAnswer[cnt] = b[rn];
-            }
         }
         else{
             ctx1.fillText(b[rn], screenCanvas1.width / 4, screenCanvas1.height * 3  / 4);
-
-            if(i == answer){
-                ctx1.fillText(c[rn],screenCanvas1.width / 2, screenCanvas1.height / 2 );
-                arrayAnswer[cnt] = b[rn];
-            }
         }
-
-
+            if(answer == i){
+                ctx1.fillText(c[rn],screenCanvas1.width / 2, screenCanvas1.height / 2 );
+                answerArray[cnt] = b[rn];
+                meanArray[cnt] = c[rn];
+             }
     }
     cnt++;
 
 
 setTimeout(function () {
-        judge(answer);
+    judge(answer);
     }, 10000); // 10000ミリ秒＝10秒後に judge() を実行
 
 }
@@ -267,5 +274,12 @@ function judge(answer){
     console.log(answer);
     if(ans == answer){
         console.log("正解");
+        resultArray[cnt1] = 1;
     }
+    else{
+        console.log("不正解");
+        resultArray[cnt1] = 0;
+    }
+     console.log(resultArray[cnt1]);
+    cnt1++;
 }
