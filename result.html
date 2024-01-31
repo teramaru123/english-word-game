@@ -28,16 +28,18 @@
 </head>
 <body>
     <div class="result-container">
-        <h2>スコア</h2>
-        <p id="resultContainer"></p>
-        <p id="scoreContainer"> </p>
+        <h2>リザルト</h2>
+	<p id="resultContainer"></p>
+	<p id="scoreContainer"> </p>
 
-        <div id="result">
-        </div>
+	<div id="result">
+	</div>
+	<div id="pagination"></div>
 
-        <a href="ゲーム画面のURL" class="next-button">もう一度</a><br>
-        <a href="ホーム画面のURL" class="next-button">ホーム画面へ</a>
+	<a href="ゲーム画面のURL" class="next-button">もう一度</a><br>
+	<a href="ホーム画面のURL" class="next-button">ホーム画面へ</a>
     </div>
+    
     <script>
       var cnt = 0;
       var resultArray = JSON.parse(localStorage.getItem('resultArray')) || [];
@@ -50,31 +52,62 @@ console.log('結果:', resultArray);
 // 解答の表示
       console.log('解答:', answerArray);
       console.log('意味:', meanArray);
-
+      
       for(i = 0; i <  resultArray.length;i++){
-          if(resultArray[i] == 1){
-              cnt++;
-              resultArray[i] = "〇";
-          }
-          else{
-              resultArray[i] = "×";
-          }
-
+	  if(resultArray[i] == 1){
+	      cnt++;
+	      resultArray[i] = "〇";
+	  }
+	  else{
+	      resultArray[i] = "×";
+	  }
+	  
       }
 
 
-
+      
       document.getElementById('resultContainer').textContent = "正解数:" + cnt;
       document.getElementById('scoreContainer').textContent = "スコア:" + score;
 
- var table = "<table border=1 cellspacing=0 cellpadding=2>";
-  table += "<tr><td>出題順</td><td>英単語</td><td>意味</td><td>正誤</td></tr>";
-  for(i=0;i<resultArray.length;i++){
+ var currentPage = 1; // 現在のページ
+      var rowsPerPage = 10; // 1ページあたりの行数
+      function generateTable() {
+          var table = "<table border=1 cellspacing=0 cellpadding=2>";
+          table += "<tr><td>出題順</td><td>英単語</td><td>意味</td><td>正誤</td></tr>";
+var startIndex = (currentPage - 1) * rowsPerPage;
+    var endIndex = Math.min(startIndex + rowsPerPage, resultArray.length);
+
+          for(i=startIndex; i < endIndex;i++){
   table += "<tr><td>" + (i+1) + "</td><td>" + answerArray[i] + "</td><td>"
   + meanArray[i] + "</td><td>" + resultArray[i] + "</td></tr>";
   }
   table += "</table>";
-  document.getElementById("result").innerHTML = table;
+          document.getElementById("result").innerHTML = table;
+           // ページングリンクを更新
+    updatePagination();
+      }
+      // ページングリンクの生成
+function updatePagination() {
+    var totalPages = Math.ceil(resultArray.length / rowsPerPage);
+
+    var pagination = "<div>";
+    for (var i = 1; i <= totalPages; i++) {
+        pagination += "<a href='#' onclick='changePage(" + i + "); return false;'>"+ i + "</a> ";
+    }
+    pagination += "</div>";
+
+    // ページングコンテナに挿入
+    document.getElementById("pagination").innerHTML = pagination;
+}
+
+// ページ切り替え
+function changePage(page) {
+    currentPage = page;
+    generateTable();
+    }
+
+// 最初のページを生成
+generateTable();
 
       </script>
 </body>
