@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>画像付きアイテムリスト</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+      min-height: 100vh;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    li {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    img {
+      width: 100px;
+      height: auto;
+    }
+
+    p {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      margin: 0; /* マージンをゼロに設定 */
+    }
+  </style>
+</head>
+<body>
+
+<h2></h2>
+
+<ul>
+  <li>
+    <img src="https://1.bp.blogspot.com/-W83kKTSZ1lU/XQjuCSQVbcI/AAAAAAABTO0/fGVkml6U0_gXhcg5_SwzhsNfsC62OropACLcBGAs/s800/figure_barrier_plate.png" alt="無敵">
+    <p>↑(無敵)</p>
+  </li>
+  <li>
+    <img src="https://3.bp.blogspot.com/-nClKZyJUWt4/Vx9UvI7L1zI/AAAAAAAA6D4/IOq_ZI-TwfsrabjVQogJFPOx7t8Nr00SQCLcB/s800/money_fueru_dollar.png" alt="スコア加算">
+    <p>→(加算)</p>
+  </li>
+  <li>
+    <img src="https://2.bp.blogspot.com/-QpIzYIhX_R0/VrN1H-ENQYI/AAAAAAAA3xU/v8lJEBoRMGA/s800/denkyuu_on.png" alt="選択肢の削除">
+    <p>↓(ヒント)</p>
+  </li>
+  <li>
+    <img src="https://1.bp.blogspot.com/-9ir3UHNSImc/VY4WpttotxI/AAAAAAAAusY/x8zBMdMxZb4/s800/mark_heart_anshin_anzen.png" alt="弾丸削除">
+    <p>←(安全)</p>
+  </li>
+</ul>
+
+</body>
+</html>
