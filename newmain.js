@@ -177,7 +177,7 @@ window.onload = function(){
           }else if(Math.random() < 0.5){
             var sakujyo = new Item(enemy.x,enemy.y,deleteImage);
             deleteList.push(sakujyo);
-          }else if(Math.random < 0.75){
+          }else if(Math.random() < 0.75){
             var reduce = new Item(enemy.x,enemy.y,reduceImage);
             reduceList.push(reduce);
           }else{
