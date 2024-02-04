@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8"/>
+    <script type="text/javascript" src="https://zeptojs.com/zepto.min.js"></script>
+    <script type="text/javascript">
+      // 配列を外部で定義
+      var array;
+
+      function loadFile() {
+          // ファイルパス
+          const filePath = './settings.txt'; // ファイル名を適切に変更
+
+          // XMLHttpRequestを使用してファイルを非同期で読み込む
+          const xhr = new XMLHttpRequest();
+          xhr.open('GET', filePath, true);
+
+          xhr.onreadystatechange = function() {
+              if (xhr.readyState === 4 && xhr.status === 200) {
+                  const data = xhr.responseText;
+
+                  // データをコンマで分割して配列に格納
+                  array = data.split(',');
+                  console.log(array[0]);
+
+                  // ranking関数を呼び出し
+                  ranking();
+              }
+          };
+
+          // リクエストの送信
+          xhr.send();
+      }
+
+      function ranking() {
+          _d = new Date().getTime(); // キャッシュ回避のため日時を利用する
+
+          $.get("ranking2.php?_d=" + _d, function(data) {
+              var lines = data.split("\n"); // 改行で区切る
+              var table = "<table border=1 cellspacing=0 cellpadding=2>";
+              table += "<tr><td>順位</td><td>Score</td><td>点数</td><td>日時</td></tr>";
+              var cnt = 0;
+
+              for (var i = 0; i < lines.length - 1; i++) {
+                  var columns = lines[i].split(","); // カンマで区切る
+                  console.log(columns[1]);
+
+                  if (array[0] == columns[1]) {
+                      if (cnt === 0) {
+                          table += "<tr><td><img src=rank1.png></td><td>" + columns[3] + "</td><td>" + columns[2] + "</td><td>" + columns[0] + "</td></tr>";
+                      } else if (cnt === 1) {
+                          table += "<tr><td><img src=rank2.png></td><td>" + columns[3] + "</td><td>" + columns[2] + "</td><td>" + columns[0] + "</td></tr>";
+                      } else if (cnt === 2) {
+                          table += "<tr><td><img src=rank3.png></td><td>" + columns[3] + "</td><td>" + columns[2] + "</td><td>" + columns[0] + "</td></tr>";
+                      } else {
+                          table += "<tr><td>" + (cnt + 1) + "</td><td>" + columns[3] + "</td><td>" + columns[2] + "</td><td>" + columns[0] + "</td></tr>";
+                      }
+                      cnt++;
+                  }
+              }
+
+              table += "</table>";
+              document.getElementById("ranking").innerHTML = table;
+          });
+      }
+      </script>
+  </head>
+  <body onload="loadFile()">
+    <div align="center">
+      <title>過去のスコア</title>
+      <h1>過去のスコア</h1><br>
+      <div id="ranking"></div><br><br>
+      <form action="./home.html" method="POST">
+        <input type="submit" value="ホームへ">
+      </form>
+    </div>
+  </body>
+</html>
