@@ -27,17 +27,20 @@ function keyDown(event){
   if (ck === 37 && invincibleLeft > 0){
     lALKDT = Date.now();
     invincibleLeft -= 1;
+    invincibleSound.play();
   }
 
   //arrowRiightキーで弾を消去
   if (ck === 39 && deleteLeft > 0){
     enemyBulletList = [];
     deleteLeft -= 1;
+    deleteSound.play();
   }
 
   if (ck === 40 && reduceLeft > 0) {
     lADKDT = Date.now();
     reduceLeft -=1;
+    reduceSound.play();
   }
 
   // Escキーが押されていたらフラグを降ろす
