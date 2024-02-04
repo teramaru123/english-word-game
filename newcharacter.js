@@ -47,5 +47,4 @@ function Bullet(x,y,size) {
   this.draw = function() {
     ctx.drawImage(bulletImage, this.x, this.y, this.size, this.size);
   }
-  shotSound.play();
 }
