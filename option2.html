@@ -36,6 +36,8 @@
 
     <button onclick="saveSettings()">設定を保存</button>
 
+    <button onclick="goBack()">戻る</button>
+
     <script>
         function saveSettings() {
             const volume = document.getElementById('volumeSlider').value;
@@ -68,7 +70,10 @@
       }, false);
 
 
-
+　　　function goBack() {
+        window.location.href = "link2.html"; // リンク先のファイル名に合わせて変更
+    }
+    
     </script>
 </body>
 </html>
